@@ -6,22 +6,29 @@ class ScrollableTreeViewComponent():
 
     grid = None
 
-    def __init__(self, frameWin, headers: str, func):
+    def __init__(self, frameWin, headers: str, func, deleteMethod):
 
         treeView = Treeview(frameWin, show='headings', columns=headers)
         self.treeView = treeView
 
-        self.lastname_ent = Entry(frameWin)
-        self.lastname_ent.pack()
+        frameButton = LabelFrame(frameWin)
+        frameButton.pack(fill=X)
+
+        self.lastname_ent = Entry(frameButton)
+        self.lastname_ent.pack(side=LEFT, padx=10, pady=10)
 
         self.func = func
+        self.deleteMethod = deleteMethod
 
-        view_window_btn1 = Button(frameWin, text='Поиск', command=self.search)
-        view_window_btn1.pack()
+        searchButton = Button(frameButton, text='Поиск', command=self.search)
+        searchButton.pack(side=LEFT,padx=10, pady=10)
         
-        view_window_btn2 = Button(frameWin, text='Обновить', command=self.reset)
-        view_window_btn2.pack()
+        updateButton  = Button(frameButton, text='Обновить', command=self.reset)
+        updateButton.pack(side=LEFT,padx=10, pady=10)
 
+        deleteButton = Button(frameButton, text='Удалить', command=self.delete)
+        deleteButton.pack(side=LEFT,padx=10, pady=10)
+        
         for header in headers:
             treeView.heading(header, text=header, anchor='center')
             treeView.column(header, anchor='center', minwidth=50, width=100)
@@ -58,4 +65,16 @@ class ScrollableTreeViewComponent():
             self.treeView.delete(i)
         
         for row in self.func():
+            self.treeView.insert("", END, values=row)
+
+    def delete(self):
+        self.treeView.selection()
+        fetchdata = self.treeView.get_children()
+
+        values = self.treeView.item(self.treeView.focus(), option="values")
+
+        for i in fetchdata:
+            self.treeView.delete(i)
+
+        for row in self.func(self.deleteMethod(values[0])):
             self.treeView.insert("", END, values=row)

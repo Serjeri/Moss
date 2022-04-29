@@ -1,4 +1,4 @@
-from tkinter import Label, Entry
+from tkinter import Label, Entry, Checkbutton, BooleanVar
 from tkcalendar import DateEntry
 from tkinter.ttk import Combobox
 
@@ -21,6 +21,11 @@ class RegistrationContent():
         Label(Lebleframe, text = 'Документ, удостоверяющий личность').grid(row=27, column=1, sticky="w")
         Label(Lebleframe, text = 'Cерия').grid(row=33, column=1, sticky="w")
         Label(Lebleframe, text = 'Номер').grid(row=39, column=1, sticky="w")
+
+        self.var = BooleanVar()
+        self.сheckForm = Checkbutton(Lebleframe, text='Форма 100', onvalue="ON", offvalue="OFF", variable=self.var)
+        self.сheckForm.grid(row=6, column=5, sticky="w", padx=10, pady=2)
+
 
         self.lastname = Entry(Lebleframe)
         self.lastname.grid(row=6, column=0, sticky="w", padx=10, pady=2)

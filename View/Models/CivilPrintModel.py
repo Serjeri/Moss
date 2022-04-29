@@ -1,0 +1,35 @@
+from dataclasses import dataclass
+
+
+@dataclass
+class CivilPrintModel:
+
+    lastname : str =" "
+    name : str =" "
+    patronymic: str =" "
+    date_of_birth: str =" "
+    gender: str =" "
+    category: str =" "
+    blood_type: str =" "
+    rh_factor: str =" "
+    information: str =" "
+    exposure_dose: str =" "
+    Chronic_diseases: str =" "
+    Identity_document: str =" "
+    series: str =" "
+    number: str =" "
+    Marital_status: str =" "
+    Place_of_residence: str =" "
+    Position: str =" "
+    Specialty: str =" "
+    date_of_injury : str =" "
+    time_of_injury: str =" "
+    date_of_receipt: str =" "
+    time_of_arrival: str =" "
+    circumstances: str =" "
+    type_of_injury: str =" "
+    classification_code: str =" "
+    diagnosis: str =" "
+    severity_lesion: str =" "
+    medical: str =" "
+    wher: str =" "

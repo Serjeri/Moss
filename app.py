@@ -7,11 +7,11 @@ class AppSettings():
 
         self.win = Tk()
         MainFrame(self.win)
-        self.win.geometry("950x650")
+        self.win.geometry("1225x650")
         self.win.title('Медицинский учет раненых больных и пораженных поступающих в медо СпН')
 
-        photo = PhotoImage(file='Content/photo/med.png')
-        self.win.iconphoto(False, photo)
+        self.photo = PhotoImage(file='Content/photo/med.png')
+        self.win.iconphoto(False, self.photo)
 
     def start(self):
         self.win.mainloop()

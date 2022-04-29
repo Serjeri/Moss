@@ -1,4 +1,4 @@
-from tkinter import Tk
+from tkinter import Tk, PhotoImage
 
 
 class DialogBase():
@@ -9,6 +9,7 @@ class DialogBase():
 
         if useGeometry:
            self.win.geometry(geometry)
+           
 
         self.win.title(title)
         self.win.resizable(shouldResize, shouldResize)
