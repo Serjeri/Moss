@@ -1,7 +1,7 @@
 import docx
 import os
 from docx.enum.text import WD_ALIGN_PARAGRAPH
-
+from docx.shared import Cm, Inches
 
 class PrintDocumentView:
 
@@ -10,7 +10,6 @@ class PrintDocumentView:
         # добавляем первый параграф
         paragraph = doc.add_paragraph(title)
         paragraph.alignment = WD_ALIGN_PARAGRAPH.CENTER
-        
         # добавляем таблицу
         table = doc.add_table(2, len(header))
         # применяем стиль для таблицы

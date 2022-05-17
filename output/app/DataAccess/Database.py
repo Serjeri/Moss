@@ -190,7 +190,6 @@ class Database():
             idTab = """ SELECT health_information FROM information WHERE id = ? """
             idKey = self.cursor.execute(idTab,(id,))
             idForenKey = idKey.fetchone()
-            print(idForenKey[0])
             self.cursor.execute( """ UPDATE health_information SET Current_status = ?, Transfer_date = ?, Translation_time = ?,
             Where_transferred = ? WHERE id = ? """,(health.current_status.get(),health.transfer_date.get(),
             health.translation_time.get(),health.where_transferred.get(),idForenKey[0],))
@@ -200,7 +199,6 @@ class Database():
             idTab = """ SELECT Medical_data FROM information WHERE id = ? """
             idKey = self.cursor.execute(idTab,(id,))
             idForenKey = idKey.fetchone()
-            print(idForenKey[0])
             self.cursor.execute( """ UPDATE Medical_data SET date_of_injury = ?,time_of_injury = ?,date_of_receipt = ?,time_of_arrival = ?,
                                 circumstances = ?,type_of_injury = ?,classification_code = ?,preliminary_diagnosis = ?,diagnosis = ?,
                                 severity_lesion = ?,medical = ?,wher = ? WHERE id = ? """,(medicine.date_of_injury.get(),medicine.time_of_injury.get(),
@@ -213,7 +211,6 @@ class Database():
             idTab = """ SELECT Discharge_data FROM information WHERE id = ?"""
             idKey = self.cursor.execute(idTab,(id,))
             idForenKey = idKey.fetchone()
-            print(idForenKey[0])
             self.cursor.execute( """ UPDATE Discharge_data SET exodus = ?,date_of_departure = ?,time_of_departure = ?,diagnosis_on_departure = ?,
                 classification_code = ?,medical_care = ?,transport = ? WHERE id = ? """,(discharge.exodus.get(),discharge.date_of_departure.get(),
                 discharge.time_of_departure.get(),discharge.diagnosis_on_departure.get(),discharge.classification_code.get(),

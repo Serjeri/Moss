@@ -235,12 +235,75 @@ class Database():
             idKey = self.cursor.execute(idTab,(id,)).fetchone()
             health = self.cursor.execute(""" SELECT * FROM Medical_data WHERE id = ? """,(idKey[0],))
             return health.fetchone()
-            
-# SELECT COUNT(*) AS count FROM information - Поступило всего за сутки 20:
-# -Военнослужащих МО
-# раненых огнестрельным оружием
-# раненых другими видами оружия
-# обожженных
-# обмороженных
-# Всего больных
-# В том числе инфекционных
+
+    def donation_datatame(self,start, end):
+        with self.db:
+            datatame = self.cursor.execute(""" SELECT COUNT(*) FROM Medical_data  
+            WHERE date_of_receipt ||' '|| time_of_arrival  BETWEEN ? AND ?  """,(start, end,)).fetchone()
+            return datatame
+
+    def donation_mo(self,start, end):
+        with self.db:
+            mo = self.cursor.execute(
+            """ SELECT Medical_data.type_of_injury, COUNT(*) FROM information 
+            JOIN Service_data ON Service_data.id = information.Service_data
+            JOIN Medical_data ON Medical_data.id = information.Medical_data
+            WHERE Departmental_affiliation = 'МО' AND Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+            GROUP BY Medical_data.type_of_injury """,(start, end,)).fetchall()
+            return mo
+
+    def donation_vng(self,start, end):
+        with self.db:
+            vng = self.cursor.execute(
+            """ SELECT  Medical_data.type_of_injury, COUNT(*) FROM information 
+            JOIN Service_data ON Service_data.id = information.Service_data
+            JOIN Medical_data ON Medical_data.id = information.Medical_data
+            WHERE Departmental_affiliation = 'ВНГ' AND Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+            GROUP BY Medical_data.type_of_injury """,(start, end,)).fetchall()
+            return vng
+
+    def donation_others(self,start, end):
+        with self.db:
+            others = self.cursor.execute(
+            """ SELECT  Medical_data.type_of_injury, COUNT(*) FROM information 
+            JOIN Service_data ON Service_data.id = information.Service_data
+            JOIN Medical_data ON Medical_data.id = information.Medical_data
+            WHERE Departmental_affiliation = 'другие' AND Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+            GROUP BY Medical_data.type_of_injury """,(start, end,)).fetchall()
+            return others
+
+    def donation_сivilians(self,start, end):
+        with self.db:
+            сivilians = self.cursor.execute(""" SELECT Social_data.Category, COUNT(*) FROM information 
+                JOIN Social_data ON Social_data.id = information.Social_data
+                JOIN Medical_data ON Medical_data.id = information.Medical_data
+                WHERE Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+                GROUP BY Social_data.Category """,(start, end,)).fetchall()
+            return сivilians
+
+    def don_status(self,start, end):
+        with self.db:
+            status = self.cursor.execute(""" SELECT Medical_data.type_of_injury, COUNT(*) FROM information 
+            JOIN Service_data ON Service_data.id = information.Service_data
+            JOIN Medical_data ON Medical_data.id = information.Medical_data
+            WHERE Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+            GROUP BY Medical_data.type_of_injury """,(start,end,)).fetchall()
+            return status
+    
+    def transport(self,start, end):
+        with self.db:
+            transport = self.cursor.execute(""" SELECT Discharge_data.transport, COUNT(*) FROM information 
+            JOIN Discharge_data ON Discharge_data.id = information.Discharge_data
+            JOIN Medical_data ON Medical_data.id = information.Medical_data
+            WHERE Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+            GROUP BY Discharge_data.transport """,(start,end,)).fetchall()
+            return transport
+
+    def status_ded(self,start, end):
+        with self.db:
+            ded = self.cursor.execute(""" SELECT Discharge_data.exodus ,COUNT(*) FROM information 
+                JOIN Discharge_data ON Discharge_data.id = information.Discharge_data
+                JOIN Medical_data ON Medical_data.id = information.Medical_data
+                WHERE Medical_data.date_of_receipt ||' '|| Medical_data.time_of_arrival  BETWEEN ? AND ?
+                GROUP BY Discharge_data.exodus """,(start,end,)).fetchall()
+            return ded

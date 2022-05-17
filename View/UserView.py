@@ -15,7 +15,8 @@ from .Models.DeparturePrintModel import DeparturePrintModel
 
 class UserView():
     
-    def __init__(self, tab_one, service: Service, medicineInfo :MedicineContent, healthInfo : HealthContent, dischargeInfo: DischargeContent) :
+    def __init__(self, tab_one, service: Service, medicineInfo :MedicineContent, 
+                    healthInfo : HealthContent, dischargeInfo: DischargeContent) :
 
         self.medicineInfo = medicineInfo
         self.healthInfo = healthInfo
@@ -25,7 +26,7 @@ class UserView():
 
         headers_m = ['№ п/п','ФИО','Предварительный Диагноз','Воинское звание','Воинская часть','Дата поступления','Дата убытия','Исход (состояние)']
                 
-        header =['Данные о пациентах']
+        header =['Данные о пациентах','Тест']
         tabsComponent = TabsComponent(tab_one,'Данные о больных',header)
         
         self.treeView_m = ScrollableTreeViewComponent(tabsComponent.frameContent[0], headers_m, service.select_m, service.delete)

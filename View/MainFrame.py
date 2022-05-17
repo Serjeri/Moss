@@ -10,6 +10,7 @@ from .Contents.HealthContent import HealthContent
 from .UserView import UserView
 from DataAccess.Database import Database
 from Service.Service import Service
+from .ReportView import ReportView
 
 
 class MainFrame(Frame):
@@ -57,4 +58,4 @@ class MainFrame(Frame):
 
         Button(frameCenter, text='Отправить' ,command=lambda:service1.insert(registrInfo,socialInfo,utilitiesIfon,
         medicineInfo,healthInfo,dischargeInfo)).grid(row=0,column=2,padx=5, sticky='es',pady=10)
-        Button(frameCenter, text='Ежесуточное срочное донесение').grid(row=0,column=3,padx=5, sticky='ew',pady=10)
+        Button(frameCenter, text='Ежесуточное срочное донесение',command=lambda: ReportView(service1.donation())).grid(row=0,column=3,padx=5, sticky='ew',pady=10)

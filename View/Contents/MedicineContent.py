@@ -41,7 +41,7 @@ class MedicineContent():
         self.circumstances.grid(row=4, column=1, pady=5, padx=3)
 
         self.type_of_injury = Combobox(Lebleframe,values=('ранение','заболевание',
-        'травма','термическое','поражение химическое','поражение радиационное','поражение микст'),width=22)
+        'травма','термическое','поражение химическое','поражение радиационное','комбинированное поражение'),width=22)
         self.type_of_injury.grid(row=5, column=1, pady=5, padx=3) 
 
         self.classification_code = Combobox(Lebleframe, values=self.MKB,width=30)

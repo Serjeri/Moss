@@ -13,7 +13,7 @@ class UtilitiesContent():
         Label(Lebleframe, text = 'ВУС').grid(row=33, column=0, sticky="w")
         Label(Lebleframe, text = 'Воинская часть').grid(row=39, column=0, sticky="w")
 
-        self.departmental_affiliation = Combobox(Lebleframe,values=('МО','МВД','другие'),width=9, state='readonly')
+        self.departmental_affiliation = Combobox(Lebleframe,values=('МО','ВНГ','другие'),width=9, state='readonly')
         self.departmental_affiliation.grid(row=6, column=0, sticky="w", padx=10, pady=2)
 
         self.composition = Combobox(Lebleframe,values=('командный','инженерный',

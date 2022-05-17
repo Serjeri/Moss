@@ -32,7 +32,6 @@ class Service():
 
             Errors.message()
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def select_s(self):
@@ -46,7 +45,6 @@ class Service():
                 return self.db.select_m(lastname)
 
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def update(self, id:int, health: HealthContent, medicine: MedicineContent, discharge: DischargeContent):
@@ -56,7 +54,6 @@ class Service():
             self.db.update_discharge(id,discharge)
             Errors.message()
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def select_information(self, id: int) -> MedicalPrintModel:

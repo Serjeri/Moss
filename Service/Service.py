@@ -1,4 +1,7 @@
 from tkinter import *
+from datetime import datetime,timedelta
+from turtle import update
+from xmlrpc.client import boolean
 from DataAccess.Database import Database
 from View.Contents.RegistrationContent import RegistrationContent
 from View.Contents.UtilitiesContent import UtilitiesContent
@@ -14,6 +17,7 @@ from View.Models.DeparturePrintModel import DeparturePrintModel
 from View.Models.SpravkaMModel import SpravkaMModel
 from View.Models.SpravkaSModel import SpravkaSModel
 from View.Models.MedicineInfoModel import MedicineInfoModel
+
 
 
 class Service():
@@ -33,7 +37,6 @@ class Service():
 
             Errors.message()
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def select_s(self):
@@ -47,7 +50,6 @@ class Service():
                 return self.db.select_m(lastname)
 
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def update(self, id:int, health: HealthContent, medicine: MedicineContent, discharge: DischargeContent):
@@ -57,7 +59,6 @@ class Service():
             self.db.update_discharge(id,discharge)
             Errors.message()
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
     def select_information(self, id: int) -> MedicalPrintModel:
@@ -111,7 +112,6 @@ class Service():
             if Errors.confirmation_of_removal() == 'yes':
                 self.db.delete(id)
         except Exception as e:
-            print(e)
             Errors.message_errors()
 
 
@@ -122,3 +122,56 @@ class Service():
             return MedicineInfoModel
         return MedicineInfoModel(data[1], data[2], data[3], data[4],data[5], data[6], 
         data[7], data[8],data[9],data[10], data[11], data[12])
+
+    def donation(self):
+        dateTimeOne = datetime.now() - timedelta(days=1)
+        datenow = datetime.now()
+        dateOne = self._privet_donation(dateTimeOne)
+        dateTime = self._privet_donation(datenow)# возврошяет 2 значеия
+        donaDateTime = self.db.donation_datatame(dateTime[0],dateTime[1])
+        mo = self.db.donation_mo(dateTime[0],dateTime[1])
+        vng = self.db.donation_vng(dateTime[0],dateTime[1])
+        others = self.db.donation_others(dateTime[0],dateTime[1])
+        сivilians = self.db.donation_сivilians(dateTime[0],dateTime[1])
+        status = self.db.don_status(dateOne[0],dateOne[1])
+        transport = self.db.transport(dateOne[0],dateOne[1])
+        statusDed = self.db.status_ded(dateOne[0],dateOne[1])
+
+        sampleDictDon = {
+            'count': donaDateTime[0],
+            'mo': self._converter_list_to_dict(mo), 
+            'vng': self._converter_list_to_dict(vng),
+            'others':self._converter_list_to_dict(others),
+            'day': self.db.donation_datatame(dateOne[0],dateOne[1]),
+            'status': self._converter_list_to_dict(status),
+            'transport':self._converter_list_to_dict(transport),
+            'statusDed':self._converter_list_to_dict(statusDed)
+            }
+        return sampleDictDon
+
+    def _converter_list_to_dict(self, list)-> dict:
+        dict_sample = {'ранение': '-', 'заболевание': '-', 'травма':'-', 'термическое': '-', 
+        'поражение химическое': '-', 'поражение радиационное': '-', 'комбинированное поражение': '-','летальный исход':'-',
+        'самостоятельно':'-'}
+
+        if len(list) == 0:
+            return dict_sample
+
+        for val in list:
+            dict_sample[val[0]] = val[1]
+
+        return dict_sample
+
+    def _privet_donation(self, time):
+        timeNow = (time.hour * 60) + time.minute
+        if timeNow > 1200 and timeNow < 1440:
+            start = datetime(time.year,time.month,time.day,20,00)
+            end = start + timedelta(days=1)
+
+        if timeNow > 1440 and timeNow < 1499 or timeNow > 60 and timeNow < 1200 :
+            end = datetime(time.year,time.month,time.day,20,00)
+            start = end - timedelta(days=1)
+        
+        timeEnd = end.strftime('%d.%m.%Y %H:%M')
+        timeStart = start.strftime('%d.%m.%Y %H:%M')
+        return (timeStart, timeEnd)
